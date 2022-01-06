@@ -5,15 +5,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.stewart.building.common.R;
-import com.stewart.building.common.renum.ReturnEnum;
-import com.stewart.building.common.renum.RoleDetailEnum;
+import com.stewart.building.common.ResultStatus;
 import com.stewart.building.config.component.JwtTokenUtil;
 import com.stewart.building.mbg.mapper.*;
 import com.stewart.building.mbg.pojo.*;
 import com.stewart.building.mbg.service.IUserService;
-import com.stewart.building.param.user.teacher.AddTeacherParam;
 import com.stewart.building.param.user.teacher.GetAllTeacherByPageParam;
-import com.stewart.building.param.user.teacher.UpdateTeacherParam;
 import com.stewart.building.util.BeanConvert;
 import com.stewart.building.util.IpUtil;
 import com.stewart.building.util.ObjectUtils;
@@ -31,7 +28,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -96,7 +92,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
         //判断账号密码是否正确
         if (userDetails == null || passwordEncoder.matches(password, userDetails.getPassword())) {
-            return R.error("用户名或者密码错误");
+            return R.error(ResultStatus.USERNAME_ERROR);
         }
 
         //更新security登录用户对象
@@ -117,7 +113,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 .setCreateTime(ObjectUtils.CurrentTime())
                 .setToken(token)
                 .setIp(IpUtil.getIpAddr(request));
-        return R.success("登录成功", tokenMap);
+        return R.ok(ResultStatus.LOGIN_SUCCESS, tokenMap);
     }
 
 

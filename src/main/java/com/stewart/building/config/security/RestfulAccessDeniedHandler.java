@@ -3,6 +3,7 @@ package com.stewart.building.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stewart.building.common.R;
+import com.stewart.building.common.ResultStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -34,8 +35,7 @@ public class RestfulAccessDeniedHandler implements AccessDeniedHandler {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        R bean = R.error("权限不足,请联系管理员");
-        bean.setCode(403);
+        R bean = R.error(ResultStatus.NOT_PERMISSION);
         out.write(new ObjectMapper().writeValueAsString(bean));
         out.close();
         out.flush();

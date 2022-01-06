@@ -1,6 +1,7 @@
 package com.stewart.building.config.component;
 
 import com.stewart.building.common.R;
+import com.stewart.building.common.ResultStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.converter.HttpMessageConversionException;
@@ -54,7 +55,7 @@ public class GlobalExceptionHandler {
             });
 
         }
-        return R.error(message.get());
+        return R.error(ResultStatus.ERROR);
     }
 
     /**
@@ -67,7 +68,7 @@ public class GlobalExceptionHandler {
     public R parameterTypeException(HttpMessageConversionException exception){
 
         logger.error(exception.getCause().getLocalizedMessage());
-        return R.error("类型转换错误");
+        return R.error(ResultStatus.TYPE_ERROR);
 
     }
 
@@ -79,10 +80,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(SQLException.class)
     public R mySqlException(SQLException e){
         if (e instanceof SQLIntegrityConstraintViolationException){
-
-            return R.error("该数据有关联数据，操作失败！");
+            return R.error(ResultStatus.ASSOCIATED_DATA_ERROR);
         }
-        return R.error("数据库异常，操作失败！");
+        return R.error(ResultStatus.MYSQL_ERROR);
     }
 
     /**
@@ -93,7 +93,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public R runTimeException(RuntimeException e){
         logger.error("出错的原因==========>"+e.getMessage());
-        return R.error("业务出现错误,请联系后端开发人员");
+        return R.error(ResultStatus.BUSINESS_ERROR);
     }
 }
 

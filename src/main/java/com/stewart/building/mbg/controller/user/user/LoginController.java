@@ -1,6 +1,7 @@
 package com.stewart.building.mbg.controller.user.user;
 
 import com.stewart.building.common.R;
+import com.stewart.building.common.ResultStatus;
 import com.stewart.building.mbg.pojo.User;
 import com.stewart.building.mbg.service.IUserService;
 import com.stewart.building.param.user.UserLoginParam;
@@ -37,7 +38,7 @@ public class LoginController {
 
         //设置角色
         user.setRoles(userService.getRoles(user.getId()));
-        return R.success("获取成功",user);
+        return R.ok(ResultStatus.GAIN_SUCCESS,user);
 
     }
 
@@ -45,7 +46,7 @@ public class LoginController {
     @PostMapping("/logout")
     public R logout(){
         //这里返回200成功给前端，前端直接把请求头里面的token删除
-        return R.success("注销成功");
+        return R.ok(ResultStatus.LOGOUT_SUCCESS);
     }
 
 }

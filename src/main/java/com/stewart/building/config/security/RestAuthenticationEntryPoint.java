@@ -2,6 +2,7 @@ package com.stewart.building.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stewart.building.common.R;
+import com.stewart.building.common.ResultStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -31,8 +32,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        R bean = R.error("未登录，请登录");
-        bean.setCode(401);
+        R bean = R.error(ResultStatus.NOT_LOGIN);
         out.write(new ObjectMapper().writeValueAsString(bean));
         out.close();
         out.flush();
