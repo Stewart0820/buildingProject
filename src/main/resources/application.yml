@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: rjxy(SB307)wuzongbo
+    url: jdbc:mysql://47.106.220.247:3306/building?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+
+jwt:
+  tokenHeader: Authorization
+  secret: building-secret
+  # jwt的超时时间
+  expiration: 604800
+  tokenHead: Bearer
+
+user:
+  password: 123456
+server:
+  port: 8888
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

@@ -47,7 +47,7 @@ public class CodeGenerator {
         String projectPath = System.getProperty("user.dir");
 
         //需要修改模块的路径  yeb-server
-        gc.setOutputDir(projectPath + "/building/src/main/java");
+        gc.setOutputDir(projectPath + "/src/main/java");
         //作者
         gc.setAuthor("Stewart");
         //打开输出目录
@@ -100,7 +100,7 @@ public class CodeGenerator {
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
                 //需要修改模块的路径  yeb-server
-                return projectPath + "/building/src/main/resources/mapper/" + tableInfo.getEntityName() + "Mapper"
+                return projectPath + "/src/main/resources/mapper/" + tableInfo.getEntityName() + "Mapper"
                         + StringPool.DOT_XML;
             }
         });
