@@ -14,11 +14,16 @@ public enum ResultStatus {
      */
     NOT_LOGIN(401,"未登录，请登录"),
     NOT_PERMISSION(403,"权限不足，请联系管理员"),
+    NOT_ID(500,"未传入id"),
+    ID_NOT_EXIST(500,"该id不存在"),
+    MIN_NOT_GREATER_MAX(500,"最小值不能大于最大值"),
+    NEED_ID(500,"请传入id"),
+
     /**
      * 成功信息
      */
     SUCCESS(200, "成功"),
-    SAVE_SUCCESS(200, "增加成功"),
+    ADD_SUCCESS(200, "增加成功"),
     DELETE_SUCCESS(200, "删除成功"),
     UPDATE_SUCCESS(200, "更改成功"),
     SELECT_SUCCESS(200, "查询成功"),
@@ -31,11 +36,16 @@ public enum ResultStatus {
      * 失败
      */
     ERROR(500,"失败"),
+    ADD_ERROR(500,"添加失败"),
+    UPDATE_ERROR(500,"修改失败"),
+    DELETE_ERROR(500,"删除失败"),
+    SELECT_ERROR(500,"查询失败"),
+
     TYPE_ERROR(500,"类型转换错误"),
     ASSOCIATED_DATA_ERROR(500,"该数据有关联数据，操作失败！"),
     MYSQL_ERROR(500,"数据库异常，操作失败！"),
     BUSINESS_ERROR(500,"业务出现错误,请联系后端开发人员"),
-    USERNAME_ERROR(500,"用户名错误或者密码错误")
+    USERNAME_ERROR(500,"用户名错误或者密码错误"),
     ;
 
     /**
