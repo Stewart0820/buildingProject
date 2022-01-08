@@ -37,7 +37,7 @@ public enum ResultStatus {
     LOGIN_SUCCESS(200, "登录成功"),
     LOGOUT_SUCCESS(200, "退出成功"),
     GAIN_SUCCESS(200,"获取成功"),
-
+    EMAIL_SEND_SUCCESS(200,"邮箱发送成功"),
 
     /**
      * 失败
@@ -53,6 +53,9 @@ public enum ResultStatus {
     MYSQL_ERROR(500,"数据库异常，操作失败！"),
     BUSINESS_ERROR(500,"业务出现错误,请联系后端开发人员"),
     USERNAME_ERROR(500,"用户名错误或者密码错误"),
+    EMAIL_FORMAT_ERROR(500,"邮箱格式错误"),
+    EMAIL_SEND_ERROR(500,"邮箱发送失败"),
+
     ;
 
     /**

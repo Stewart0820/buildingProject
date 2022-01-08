@@ -99,7 +99,7 @@ public class ClazzController {
     }
 
     @ApiOperation(value = "根据传入的id查询对应的班级")
-    @GetMapping("/getById")
+    @GetMapping("/getById/{id}")
     public R getById(@PathVariable Integer id){
         if(StringUtils.isEmpty(id)){
             return R.error(ResultStatus.NEED_ID);
