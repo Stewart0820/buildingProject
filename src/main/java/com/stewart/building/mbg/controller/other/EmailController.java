@@ -1,4 +1,4 @@
-package com.stewart.building.mbg.controller;
+package com.stewart.building.mbg.controller.other;
 
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

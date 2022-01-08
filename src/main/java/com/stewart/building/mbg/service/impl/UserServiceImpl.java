@@ -221,6 +221,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             return R.error(ResultStatus.UPDATE_ERROR);
         }
     }
+    @Override
+    public Boolean batchInsert(List<Object> datas) {
+        return null;
+    }
 
     /**
      * 在userRole表中添加数据

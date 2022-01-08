@@ -82,4 +82,10 @@ public interface IUserService extends IService<User> {
      */
     R updateTeacher(UpdateTeacherParam param);
 
+    /**
+     * 批量添加学生
+     * @param datas
+     * @return
+     */
+    Boolean batchInsert(List<Object> datas);
 }
