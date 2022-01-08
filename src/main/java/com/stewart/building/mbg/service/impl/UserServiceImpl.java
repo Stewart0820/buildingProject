@@ -1,16 +1,21 @@
 package com.stewart.building.mbg.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.stewart.building.common.R;
 import com.stewart.building.common.ResultStatus;
+import com.stewart.building.common.renum.ReturnEnum;
+import com.stewart.building.common.renum.RoleDetailEnum;
 import com.stewart.building.config.component.JwtTokenUtil;
 import com.stewart.building.mbg.mapper.*;
 import com.stewart.building.mbg.pojo.*;
 import com.stewart.building.mbg.service.IUserService;
+import com.stewart.building.param.user.teacher.AddTeacherParam;
 import com.stewart.building.param.user.teacher.GetAllTeacherByPageParam;
+import com.stewart.building.param.user.teacher.UpdateTeacherParam;
 import com.stewart.building.util.BeanConvert;
 import com.stewart.building.util.IpUtil;
 import com.stewart.building.util.ObjectUtils;
@@ -28,6 +33,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -183,5 +189,104 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         return userMapper.selectOne(new QueryWrapper<User>().eq("account", account));
     }
 
+    /**
+     * 修改老师
+     * @param param
+     * @return
+     */
+    @Override
+    @Transactional
+    public R updateTeacher(UpdateTeacherParam param) {
+        UserVo userVo = userVoMapper.selectById(param.getId());
+        if(StringUtils.isEmpty(userVo)){
+            return R.error(ResultStatus.ID_NOT_EXIST);
+        }
+        UserVo user = new UserVo();
+        if(param.getType()!= userVo.getType()){
+            //修改角色信息
+            List<UserRole> userRoles = userRoleMapper.selectList(new LambdaQueryWrapper<UserRole>()
+                    .eq(UserRole::getUserId, param.getId())
+                    .select(UserRole::getId));
+            for(UserRole role:userRoles){
+                userRoleMapper.deleteById(role.getId());
+            }
+            addUserRole(param.getType(),userRoleMapper,param.getId());
+        }
+        BeanUtils.copyProperties(param,user);
+        user.setUpdateTime(ObjectUtils.CurrentTime());
+        int res = userVoMapper.updateById(user);
+        if (res==1){
+            return R.ok(ResultStatus.UPDATE_SUCCESS);
+        }else{
+            return R.error(ResultStatus.UPDATE_ERROR);
+        }
+    }
 
+    /**
+     * 在userRole表中添加数据
+     * @param userType
+     * @param userRoleMapper
+     * @param userId
+     */
+    private static void addUserRole(Integer userType,UserRoleMapper userRoleMapper,Integer userId){
+        insertTeacher(userId, userType, userRoleMapper);
+    }
+    /**
+     * 创建一个userRole对象
+     *
+     * @param userId 用户id
+     * @param roleId 用户具有什么角色
+     * @return
+     */
+    private static UserRole getUserRole(Integer userId, Integer roleId) {
+        UserRole userRole = new UserRole();
+        userRole.setUserId(userId);
+        userRole.setRoleId(roleId);
+        logger.info(userRole + "");
+        return userRole;
+    }
+    /**
+     * 添加老师
+     *
+     * @param addTeacherParam
+     * @return
+     */
+    @Override
+    @Transactional
+    public R addTeacher(AddTeacherParam addTeacherParam) {
+        //判断电话是否存在
+        User mobileExist = userMapper.selectOne(new QueryWrapper<User>().eq("mobile", addTeacherParam.getMobile()));
+        logger.warn(mobileExist + "");
+        if (!BeanUtil.isEmpty(mobileExist)) {
+            return R.error(ResultStatus.MOBILE_EXIST);
+        }
+        //判断邮箱是否存在
+        User emailExist = userMapper.selectOne(new QueryWrapper<User>().eq("email", addTeacherParam.getEmail()));
+        if (!BeanUtil.isEmpty(emailExist)) {
+            return R.error(ResultStatus.EMAIL_EXIST);
+        }
+        User user = new User();
+        BeanUtils.copyProperties(addTeacherParam, user);
+        user.setCreateTime(ObjectUtils.CurrentTime())
+                .setAccount(addTeacherParam.getMobile())
+                .setPassword(passwordEncoder.encode(userPassword));
+        userMapper.insert(user);
+        //查询存进的user
+        User userResult = userMapper.selectOne(new QueryWrapper<User>().eq("mobile", user.getAccount()));
+        Integer userId = userResult.getId();
+        Integer userType = user.getType();
+        insertTeacher(userId, userType, userRoleMapper);
+        return R.ok(ResultStatus.ADD_SUCCESS);
+    }
+
+    private static void insertTeacher(Integer userId, Integer userType, UserRoleMapper userRoleMapper) {
+        if (userType == RoleDetailEnum.TEACHER.ordinal()) {
+            userRoleMapper.insert(getUserRole(userId, RoleDetailEnum.TEACHER.ordinal()));
+        } else if (userType == RoleDetailEnum.TEACHER_LAB.ordinal()) {
+            userRoleMapper.insert(getUserRole(userId, RoleDetailEnum.TEACHER_LAB.ordinal()));
+        } else {
+            userRoleMapper.insert(getUserRole(userId, RoleDetailEnum.TEACHER.ordinal()));
+            userRoleMapper.insert(getUserRole(userId, RoleDetailEnum.TEACHER_LAB.ordinal()));
+        }
+    }
 }

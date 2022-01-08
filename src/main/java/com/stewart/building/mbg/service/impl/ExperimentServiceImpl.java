@@ -89,7 +89,6 @@ public class ExperimentServiceImpl extends ServiceImpl<ExperimentMapper, Experim
         if(experiment==null){
             return SuccessEnum.ID_NOT_EXIST.ordinal();
         }
-
         return experimentMapper.deleteById(id);
     }
 

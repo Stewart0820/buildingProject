@@ -30,7 +30,7 @@ public class WebLogAspect {
 
     ThreadLocal<Long> startTime = new ThreadLocal<>();
 
-    @Pointcut("execution(public * stewart.building.mbg.controller..*.*(..))")//切入点
+    @Pointcut("execution(* com.stewart.building.mbg.controller..*.*(..))")//切入点
     public void webLog() {
     }
 

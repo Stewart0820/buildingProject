@@ -18,6 +18,12 @@ public enum ResultStatus {
     ID_NOT_EXIST(500,"该id不存在"),
     MIN_NOT_GREATER_MAX(500,"最小值不能大于最大值"),
     NEED_ID(500,"请传入id"),
+    USER_EXIST(500,"该用户已经存在"),
+    MOBILE_EXIST(500,"该电话已经存在"),
+    EMAIL_EXIST(500,"该邮箱已经存在"),
+    TEACHER_NOT_EXIST(500,"该用户不存在"),
+    COURSE_NOT_EXIST(500,"该课程不存在"),
+    SEMESTER_NOT_EXIST(500,"该学期不存在"),
 
     /**
      * 成功信息
@@ -31,6 +37,7 @@ public enum ResultStatus {
     LOGIN_SUCCESS(200, "登录成功"),
     LOGOUT_SUCCESS(200, "退出成功"),
     GAIN_SUCCESS(200,"获取成功"),
+
 
     /**
      * 失败

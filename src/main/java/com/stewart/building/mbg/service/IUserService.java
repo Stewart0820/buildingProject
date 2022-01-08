@@ -6,7 +6,9 @@ import com.stewart.building.common.R;
 import com.stewart.building.mbg.pojo.Role;
 import com.stewart.building.mbg.pojo.User;
 import com.stewart.building.mbg.pojo.UserVo;
+import com.stewart.building.param.user.teacher.AddTeacherParam;
 import com.stewart.building.param.user.teacher.GetAllTeacherByPageParam;
+import com.stewart.building.param.user.teacher.UpdateTeacherParam;
 
 import java.util.List;
 
@@ -63,5 +65,21 @@ public interface IUserService extends IService<User> {
     Page<UserVo> getAll(GetAllTeacherByPageParam teacherByPageParam);
 
 
+    /**
+     * 添加老师
+     * @param addTeacherParam
+     * @return
+     */
+    R addTeacher(AddTeacherParam addTeacherParam);
+
+
+
+
+    /**
+     * 修改老师
+     * @param param
+     * @return
+     */
+    R updateTeacher(UpdateTeacherParam param);
 
 }
