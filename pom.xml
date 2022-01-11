@@ -100,7 +100,7 @@
             <artifactId>freemarker</artifactId>
             <version>${freemarker.version}</version>
         </dependency>
-        <!--    &lt;!&ndash; swagger2 依赖 &ndash;&gt;-->
+        <!--    swagger2 依赖 -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>

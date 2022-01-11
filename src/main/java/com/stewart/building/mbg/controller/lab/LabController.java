@@ -11,6 +11,7 @@ import com.stewart.building.mbg.service.ILabService;
 import com.stewart.building.param.lab.AddLabParam;
 import com.stewart.building.param.lab.GetAllLabPageParam;
 import com.stewart.building.param.lab.UpdateLabParam;
+import com.stewart.building.util.ControllerUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,28 +80,8 @@ public class LabController {
     @ApiOperation(value = "根据实验id删除实验室信息")
     @GetMapping("/deleteLabById/{id}")
     public R deleteLabById(@PathVariable Integer id){
-        if (StringUtils.isEmpty(id)) {
-            return R.error(ResultStatus.NOT_ID);
-        }
-        int res = labService.deleteLabById(id);
-        if(res== 0){
-            return R.error(ResultStatus.ID_NOT_EXIST);
-        }
-        return R.ok(ResultStatus.DELETE_SUCCESS);
+        return ControllerUtils.getR(id, labService.removeById(id));
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

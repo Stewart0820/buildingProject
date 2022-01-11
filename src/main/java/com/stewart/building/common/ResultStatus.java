@@ -55,7 +55,7 @@ public enum ResultStatus {
     USERNAME_ERROR(500,"用户名错误或者密码错误"),
     EMAIL_FORMAT_ERROR(500,"邮箱格式错误"),
     EMAIL_SEND_ERROR(500,"邮箱发送失败"),
-
+    ID_IS_NOT_TEACHER_ID(500,"传入的id不是老师id")
     ;
 
     /**

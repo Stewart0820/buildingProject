@@ -88,4 +88,11 @@ public interface IUserService extends IService<User> {
      * @return
      */
     Boolean batchInsert(List<Object> datas);
+
+    /**
+     * 根据用户id查询单条老师数据
+     * @param id
+     * @return
+     */
+    R getTeacherById(Integer id);
 }

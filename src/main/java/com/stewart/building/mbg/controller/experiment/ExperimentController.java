@@ -11,6 +11,7 @@ import com.stewart.building.mbg.service.IExperimentService;
 import com.stewart.building.param.experiment.AddExperimentParam;
 import com.stewart.building.param.experiment.GetAllExperimentParam;
 import com.stewart.building.param.experiment.UpdateExperimentParam;
+import com.stewart.building.util.ControllerUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,14 +75,7 @@ public class ExperimentController {
     @ApiOperation(value = "根据实验id删除实验")
     @GetMapping("/deleteExperimentById/{id}")
     public R deleteExperimentById(@PathVariable Integer id) {
-        if (StringUtils.isEmpty(id)) {
-            return R.error(ResultStatus.NOT_ID);
-        }
-        int res = experimentService.deleteLabById(id);
-        if(res== 0){
-            return R.error(ResultStatus.ID_NOT_EXIST);
-        }
-        return R.ok(ResultStatus.DELETE_SUCCESS);
+        return ControllerUtils.getR(id, experimentService.removeById(id));
     }
 
     @ApiOperation(value = "根据实验id查询实验")

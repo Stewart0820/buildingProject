@@ -19,6 +19,9 @@ public class AddCourseParam implements Serializable {
 
     private Integer year;
 
+    @NotBlank(message = "课程名称不能为空")
+    private String number;
+
     private String image;
 
     private Integer hour;

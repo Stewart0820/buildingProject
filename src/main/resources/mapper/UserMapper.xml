@@ -20,5 +20,16 @@
     <sql id="Base_Column_List">
         id, name, account, password, mobile, gender, create_time, update_time, type, email
     </sql>
+    <insert id="batchInsert">
+        insert into user(
+            account,name,mobile,gender,email
+        )
+        values
+        <foreach collection="datas" item="data" separator=",">
+            (
+                #{data.account},#{data.name},#{data.mobile},#{data.gender},#{data.email}
+            )
+        </foreach>
+    </insert>
 
 </mapper>

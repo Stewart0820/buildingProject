@@ -13,6 +13,12 @@ import java.util.List;
  */
 public interface UserVoMapper extends BaseMapper<UserVo> {
 
+    /**
+     * 批量添加学生
+     * @param datas
+     * @return
+     */
+    int batchInsert(List<Object> datas);
 }
 
 

@@ -9,6 +9,7 @@ import com.stewart.building.common.R;
 import com.stewart.building.common.ResultStatus;
 import com.stewart.building.common.renum.ReturnEnum;
 import com.stewart.building.common.renum.RoleDetailEnum;
+import com.stewart.building.common.renum.RoleEnum;
 import com.stewart.building.config.component.JwtTokenUtil;
 import com.stewart.building.mbg.mapper.*;
 import com.stewart.building.mbg.pojo.*;
@@ -221,9 +222,34 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             return R.error(ResultStatus.UPDATE_ERROR);
         }
     }
+
+    /**
+     * 批量添加学生
+     * @param datas
+     * @return
+     */
     @Override
     public Boolean batchInsert(List<Object> datas) {
+        userVoMapper.batchInsert(datas);
         return null;
+    }
+
+    /**
+     * 根据用户id查询单条老师数据
+     * @param id
+     * @return
+     */
+    @Override
+    public R getTeacherById(Integer id) {
+        UserVo userVo = userVoMapper.selectById(id);
+        if (!userVo.getType().equals(RoleEnum.TEACHER.getRes()) ||
+                !userVo.getType().equals(RoleEnum.TEACHER_LAB.getRes()) ||
+                !userVo.getType().equals(RoleEnum.TEACHER_LAB_TEACHER.getRes())){
+            return R.error(ResultStatus.ID_IS_NOT_TEACHER_ID);
+        }
+        //这里需要转换一下实体类
+
+        return R.ok(ResultStatus.SELECT_SUCCESS,userVo);
     }
 
     /**

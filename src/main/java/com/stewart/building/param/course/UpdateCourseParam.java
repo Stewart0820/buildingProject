@@ -22,6 +22,9 @@ public class UpdateCourseParam implements Serializable {
     @NotBlank(message = "课程名称不能为空")
     private String name;
 
+    @NotBlank(message = "课程名称不能为空")
+    private String number;
+
     private Integer year;
 
     private String image;

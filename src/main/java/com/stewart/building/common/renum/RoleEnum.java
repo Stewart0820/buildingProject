@@ -9,12 +9,15 @@ public enum RoleEnum {
     //角色模块
     ADMIN("ADMIN", 1),
 
+    //任课老师
     TEACHER("TEACHER", 2),
 
     TEACHER_LAB("TEACHER_LAB", 3),
 
     //任课老师+实验老师
     TEACHER_LAB_TEACHER("TEACHER_LAB_TEACHER",4),
+
+    //学生
     STUDENT("STUDENT", 5),
 
     ADMIN_SUPER("ADMIN_SUPER", 6);

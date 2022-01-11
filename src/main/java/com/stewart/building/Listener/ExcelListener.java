@@ -9,7 +9,6 @@ package com.stewart.building.Listener;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.excel.exception.ExcelDataConvertException;
-import com.stewart.building.mbg.mapper.UserVoMapper;
 import com.stewart.building.mbg.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +32,7 @@ public class ExcelListener extends AnalysisEventListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelListener.class);
     private static final int BATCH_COUNT = 5;
-    @Autowired
+
     private IUserService userService;
     /**
      * 自定义用于暂时存储data。
@@ -61,7 +60,6 @@ public class ExcelListener extends AnalysisEventListener {
             // 存储完成清理 list
             datas.clear();
             LOGGER.info("这里？？？？？？？");
-
         }
         LOGGER.info("一条数据结束");
     }
@@ -83,9 +81,9 @@ public class ExcelListener extends AnalysisEventListener {
      */
     private void saveData(List<Object> datas) {
         LOGGER.info(datas+"");
-        //TODO
-        //一次性插入多条记录
-//        userService.batchInsert(datas);
+        //一次性插入多条记录,需要使用mybatis的批量添加
+        //mybatis-plus的批量添加底层是for循环
+        userService.batchInsert(datas);
     }
 
 
