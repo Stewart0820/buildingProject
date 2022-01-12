@@ -38,4 +38,11 @@ public interface ICourseService extends IService<Course> {
      * @param param
      */
     R updateCourse(UpdateCourseParam param);
+
+    /**
+     * 根据id删除课程
+     * @param id
+     * @return
+     */
+    R deleteCourseById(Integer id);
 }

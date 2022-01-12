@@ -75,7 +75,7 @@ public class ExperimentController {
     @ApiOperation(value = "根据实验id删除实验")
     @GetMapping("/deleteExperimentById/{id}")
     public R deleteExperimentById(@PathVariable Integer id) {
-        return ControllerUtils.getR(id, experimentService.removeById(id));
+        return experimentService.deleteExperimentById(id);
     }
 
     @ApiOperation(value = "根据实验id查询实验")

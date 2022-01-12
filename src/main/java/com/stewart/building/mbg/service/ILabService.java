@@ -1,6 +1,7 @@
 package com.stewart.building.mbg.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.stewart.building.common.R;
 import com.stewart.building.mbg.pojo.Lab;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.stewart.building.param.lab.AddLabParam;
@@ -49,5 +50,5 @@ public interface ILabService extends IService<Lab> {
      * @param id
      * @return
      */
-    int deleteLabById(Integer id);
+    R deleteLabById(Integer id);
 }

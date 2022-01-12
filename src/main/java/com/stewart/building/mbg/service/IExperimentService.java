@@ -1,6 +1,7 @@
 package com.stewart.building.mbg.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.stewart.building.common.R;
 import com.stewart.building.mbg.pojo.Experiment;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.stewart.building.param.experiment.AddExperimentParam;
@@ -38,12 +39,6 @@ public interface IExperimentService extends IService<Experiment> {
      */
     int updateExperiment(UpdateExperimentParam updateExperimentParam);
 
-    /**
-     * 根据实验id删除实验
-     * @param id
-     * @return
-     */
-    int deleteLabById(Integer id);
 
     /**
      * 根据id查询实验
@@ -51,4 +46,11 @@ public interface IExperimentService extends IService<Experiment> {
      * @return
      */
     Experiment getExperimentById(Integer id);
+
+    /**
+     * 根据实验id删除实验
+     * @param id
+     * @return
+     */
+    R deleteExperimentById(Integer id);
 }

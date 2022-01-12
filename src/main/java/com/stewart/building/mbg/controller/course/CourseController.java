@@ -1,7 +1,6 @@
 package com.stewart.building.mbg.controller.course;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.stewart.building.common.R;
 import com.stewart.building.common.ResultStatus;
@@ -10,7 +9,6 @@ import com.stewart.building.mbg.service.ICourseService;
 import com.stewart.building.param.course.AddCourseParam;
 import com.stewart.building.param.course.GetAllCourseParam;
 import com.stewart.building.param.course.UpdateCourseParam;
-import com.stewart.building.util.ControllerUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,9 +69,7 @@ public class CourseController {
     @ApiOperation(value = "根据id删除课程")
     @GetMapping("/deleteCourseById/{id}")
     public R deleteCourseById(@PathVariable Integer id){
-        //删除课程还需要删除和这个课程关联的数据
-
-        return ControllerUtils.getR(id,courseService.removeById(id));
+        return courseService.deleteCourseById(id);
     }
 
 

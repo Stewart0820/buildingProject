@@ -80,7 +80,7 @@ public class LabController {
     @ApiOperation(value = "根据实验id删除实验室信息")
     @GetMapping("/deleteLabById/{id}")
     public R deleteLabById(@PathVariable Integer id){
-        return ControllerUtils.getR(id, labService.removeById(id));
+        return labService.deleteLabById(id);
     }
 
 

@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.stewart.building.common.R;
 import com.stewart.building.common.ResultStatus;
+import com.stewart.building.mbg.mapper.CourseExperimentMapper;
 import com.stewart.building.mbg.pojo.Course;
 import com.stewart.building.mbg.mapper.CourseMapper;
+import com.stewart.building.mbg.pojo.CourseExperiment;
 import com.stewart.building.mbg.service.ICourseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.stewart.building.param.course.AddCourseParam;
@@ -15,6 +17,7 @@ import com.stewart.building.param.course.UpdateCourseParam;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -30,6 +33,8 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     @Autowired
     private CourseMapper courseMapper;
 
+    @Autowired
+    private CourseExperimentMapper courseExperimentMapper;
     /**
      * 分页查询所有的课程
      * @param param
@@ -75,4 +80,29 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
             return R.error(ResultStatus.UPDATE_ERROR);
         }
     }
+
+    /**
+     * 根据id删除课程
+     * @param id
+     * @return
+     */
+    @Transactional
+    @Override
+    public R deleteCourseById(Integer id) {
+        int res = courseMapper.deleteById(id);
+        int result = courseExperimentMapper.delete(new QueryWrapper<CourseExperiment>().eq("course_id", id));
+        if(res>0&&result>=0){
+            return R.ok(ResultStatus.DELETE_SUCCESS);
+        }
+        return R.error(ResultStatus.DELETE_ERROR);
+    }
+
+
+
+
+
+
+
+
+
 }

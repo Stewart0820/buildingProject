@@ -3,9 +3,13 @@ package com.stewart.building.mbg.service.impl;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.stewart.building.common.R;
+import com.stewart.building.common.ResultStatus;
 import com.stewart.building.common.renum.SuccessEnum;
+import com.stewart.building.mbg.mapper.LabExperimentMapper;
 import com.stewart.building.mbg.pojo.Lab;
 import com.stewart.building.mbg.mapper.LabMapper;
+import com.stewart.building.mbg.pojo.LabExperiment;
 import com.stewart.building.mbg.service.ILabService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.stewart.building.param.lab.AddLabParam;
@@ -15,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -30,6 +35,8 @@ public class LabServiceImpl extends ServiceImpl<LabMapper, Lab> implements ILabS
     @Autowired
     private LabMapper labMapper;
 
+    @Autowired
+    private LabExperimentMapper labExperimentMapper;
     /**
      * 分页模糊查询所有的实验室
      * @param size
@@ -89,8 +96,14 @@ public class LabServiceImpl extends ServiceImpl<LabMapper, Lab> implements ILabS
      * @param id
      * @return
      */
+    @Transactional
     @Override
-    public int deleteLabById(Integer id) {
-        return labMapper.deleteById(id);
+    public R deleteLabById(Integer id) {
+        int res = labMapper.deleteById(id);
+        int result = labExperimentMapper.delete(new QueryWrapper<LabExperiment>().eq("lab_id", id));
+        if(res>0&&result>=0){
+            return R.ok(ResultStatus.DELETE_SUCCESS);
+        }
+        return R.error(ResultStatus.DELETE_ERROR);
     }
 }

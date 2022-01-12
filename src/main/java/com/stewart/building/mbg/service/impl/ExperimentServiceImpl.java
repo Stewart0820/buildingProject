@@ -4,9 +4,16 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.stewart.building.common.R;
+import com.stewart.building.common.ResultStatus;
 import com.stewart.building.common.renum.SuccessEnum;
+import com.stewart.building.mbg.mapper.CourseExperimentMapper;
+import com.stewart.building.mbg.mapper.LabExperimentMapper;
+import com.stewart.building.mbg.pojo.Course;
+import com.stewart.building.mbg.pojo.CourseExperiment;
 import com.stewart.building.mbg.pojo.Experiment;
 import com.stewart.building.mbg.mapper.ExperimentMapper;
+import com.stewart.building.mbg.pojo.LabExperiment;
 import com.stewart.building.mbg.service.IExperimentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.stewart.building.param.experiment.AddExperimentParam;
@@ -17,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -33,6 +41,11 @@ public class ExperimentServiceImpl extends ServiceImpl<ExperimentMapper, Experim
     @Autowired
     private ExperimentMapper experimentMapper;
 
+    @Autowired
+    private LabExperimentMapper labExperimentMapper;
+
+    @Autowired
+    private CourseExperimentMapper courseExperimentMapper;
     /**
      * 分页/模糊 查询所有的实验
      *
@@ -79,20 +92,6 @@ public class ExperimentServiceImpl extends ServiceImpl<ExperimentMapper, Experim
     }
 
     /**
-     * 根据实验id删除实验
-     * @param id
-     * @return
-     */
-    @Override
-    public int deleteLabById(Integer id) {
-        Experiment experiment = experimentMapper.selectById(id);
-        if(experiment==null){
-            return SuccessEnum.ID_NOT_EXIST.ordinal();
-        }
-        return experimentMapper.deleteById(id);
-    }
-
-    /**
      * 根据id查询实验信息
      * @param id
      * @return
@@ -100,5 +99,22 @@ public class ExperimentServiceImpl extends ServiceImpl<ExperimentMapper, Experim
     @Override
     public Experiment getExperimentById(Integer id) {
         return experimentMapper.selectById(id);
+    }
+
+    /**
+     * 根据实验id删除实验
+     * @param id
+     * @return
+     */
+    @Transactional
+    @Override
+    public R deleteExperimentById(Integer id) {
+        int res = experimentMapper.deleteById(id);
+        int lab = labExperimentMapper.delete(new QueryWrapper<LabExperiment>().eq("experiment_id", id));
+        int course = courseExperimentMapper.delete(new QueryWrapper<CourseExperiment>().eq("experiment_id", id));
+        if(res>0){
+            return R.ok(ResultStatus.DELETE_SUCCESS);
+        }
+        return R.error(ResultStatus.DELETE_ERROR);
     }
 }
