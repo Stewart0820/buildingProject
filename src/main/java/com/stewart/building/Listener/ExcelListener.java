@@ -9,11 +9,17 @@ package com.stewart.building.Listener;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.excel.exception.ExcelDataConvertException;
+import com.stewart.building.common.R;
+import com.stewart.building.mbg.mapper.UserVoMapper;
+import com.stewart.building.mbg.pojo.UserVo;
 import com.stewart.building.mbg.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,24 +32,33 @@ import java.util.List;
  *
  * @author Steart
  */
-
+@Component
 public class ExcelListener extends AnalysisEventListener {
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelListener.class);
-    private static final int BATCH_COUNT = 5;
 
+    /**
+     * 添加的最大数量
+     * private static final int BATCH_COUNT = 5;
+     */
+    @Resource
     private IUserService userService;
     /**
      * 自定义用于暂时存储data。
      * 可以通过实例获取该值
      */
+
+    private int clazzId;
     private List<Object> datas = new ArrayList<>();
 
 
+    public ExcelListener( ) {
+    }
 
-    public ExcelListener() {
-
+    public ExcelListener(Integer clazzId,IUserService userService) {
+        this.clazzId = clazzId;
+        this.userService = userService;
     }
 
     /**
@@ -55,12 +70,14 @@ public class ExcelListener extends AnalysisEventListener {
     public void invoke(Object object, AnalysisContext context) {
         datas.add(object);
         // 达到BATCH_COUNT了，需要去存储一次数据库，防止数据几万条数据在内存，容易OOM
-        if (datas.size() >= BATCH_COUNT) {
-            saveData(datas);
-            // 存储完成清理 list
-            datas.clear();
-            LOGGER.info("这里？？？？？？？");
-        }
+//        if (datas.size() >= BATCH_COUNT) {
+//            saveData(datas);
+//            // 存储完成清理 list
+//            datas.clear();
+//            LOGGER.info("这里？？？？？？？");
+//        }
+//        saveData(datas);
+//        datas.clear();
         LOGGER.info("一条数据结束");
     }
 
@@ -83,7 +100,7 @@ public class ExcelListener extends AnalysisEventListener {
         LOGGER.info(datas+"");
         //一次性插入多条记录,需要使用mybatis的批量添加
         //mybatis-plus的批量添加底层是for循环
-        userService.batchInsert(datas);
+        userService.batchInsert(clazzId, datas);
     }
 
 

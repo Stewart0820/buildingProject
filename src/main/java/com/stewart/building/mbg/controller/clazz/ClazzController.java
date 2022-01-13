@@ -30,7 +30,7 @@ import javax.validation.Valid;
  * @author Stewart
  * @since 2022-01-06
  */
-@Api(tags = "查询所有的班级")
+@Api(tags = "班级模块")
 @RestController
 @RequestMapping("/clazz")
 public class ClazzController {

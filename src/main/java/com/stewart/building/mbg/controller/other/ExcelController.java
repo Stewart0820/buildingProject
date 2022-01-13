@@ -2,11 +2,17 @@ package com.stewart.building.mbg.controller.other;
 
 import com.stewart.building.Listener.ExcelEntity;
 import com.stewart.building.common.R;
+import com.stewart.building.common.ResultStatus;
+import com.stewart.building.mbg.pojo.Clazz;
+import com.stewart.building.mbg.service.IClazzService;
+import com.stewart.building.mbg.service.IUserService;
 import com.stewart.building.util.ExcelUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,19 +34,26 @@ import java.io.InputStream;
 public class ExcelController {
     private static final Logger log = LoggerFactory.getLogger(ExcelController.class);
 
+    @Autowired
+    private IUserService userService;
+
+    @Autowired
+    private IClazzService clazzService;
     /**
      * 单个文件上传
      * @param file
      * @return
      */
-    @ApiOperation(value="上传excel",httpMethod="POST",notes="单个文件上传")
-    @RequestMapping(value = "/upload")
-    public R upload(@RequestParam("file") MultipartFile file) {
-        R msg = new R();
+    @ApiOperation(value="根据班级导入学生",httpMethod="POST",notes="单个文件上传")
+    @RequestMapping(value = "/upload/{id}")
+    public R upload(@PathVariable Integer id, @RequestParam("file") MultipartFile file) {
+        Clazz clazz = clazzService.getById(id);
+        if(clazz==null){
+            return R.error(ResultStatus.CLAZZ_ID_NOT_EXIST);
+        }
         try {
             if (file.isEmpty()) {
-                msg.setMsg("文件为空");
-                return msg;
+                return R.error(ResultStatus.FILE_IS_NULL);
             }
             // 获取文件名
             String fileName = file.getOriginalFilename();
@@ -54,16 +67,14 @@ public class ExcelController {
             file.transferTo(tmpFile);
             //将临时文件转为输入流
             InputStream inputStream = new FileInputStream(tmpFile);
-            ExcelUtils.readExcel(inputStream, ExcelEntity.class);
-            msg.setMsg("上传成功");
+            ExcelUtils.readExcel(inputStream, ExcelEntity.class,id,userService);
             //上传完成 删除临时文件
             tmpFile.delete();
-            return msg;
+            return R.ok(ResultStatus.UPLOAD_SUCCESS);
         } catch (IllegalStateException | IOException e) {
             e.printStackTrace();
         }
-        msg.setMsg("上传失败");
-        return msg;
+        return R.error(ResultStatus.UPLOAD_ERROR);
     }
 
 }

@@ -84,10 +84,12 @@ public interface IUserService extends IService<User> {
 
     /**
      * 批量添加学生
+     *
+     * @param clazzId
      * @param datas
      * @return
      */
-    Boolean batchInsert(List<Object> datas);
+    Boolean batchInsert(int clazzId, List<Object> datas);
 
     /**
      * 根据用户id查询单条老师数据

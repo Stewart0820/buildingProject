@@ -3,7 +3,9 @@ package com.stewart.building.mbg.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.stewart.building.mbg.pojo.UserVo;
+import org.apache.ibatis.annotations.Param;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,10 +17,11 @@ public interface UserVoMapper extends BaseMapper<UserVo> {
 
     /**
      * 批量添加学生
-     * @param datas
+     * @param list
      * @return
      */
-    int batchInsert(List<Object> datas);
+    int batchInsert(List<UserVo> list);
+
 }
 
 

@@ -20,6 +20,7 @@ public enum RoleEnum {
     //学生
     STUDENT("STUDENT", 5),
 
+    //超级管理员
     ADMIN_SUPER("ADMIN_SUPER", 6);
     private String code;
     private Integer res;

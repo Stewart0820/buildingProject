@@ -7,12 +7,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.stewart.building.common.R;
 import com.stewart.building.common.ResultStatus;
-import com.stewart.building.common.renum.ReturnEnum;
 import com.stewart.building.common.renum.RoleDetailEnum;
 import com.stewart.building.common.renum.RoleEnum;
 import com.stewart.building.config.component.JwtTokenUtil;
 import com.stewart.building.mbg.mapper.*;
 import com.stewart.building.mbg.pojo.*;
+import com.stewart.building.mbg.service.IClazzService;
 import com.stewart.building.mbg.service.IUserService;
 import com.stewart.building.param.user.teacher.AddTeacherParam;
 import com.stewart.building.param.user.teacher.GetAllTeacherByPageParam;
@@ -37,9 +37,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -83,6 +85,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Autowired
     private UserVoMapper userVoMapper;
 
+    private final String password = "123456";
+
+    @Autowired
+    private ClazzStudentMapper clazzStudentMapper;
+
+
+    @Autowired
+    private ClazzMapper clazzMapper;
     /**
      * 登录之后返回token
      *
@@ -225,13 +235,40 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     /**
      * 批量添加学生
+     *
+     * @param clazzId
      * @param datas
      * @return
      */
+    @Transactional
     @Override
-    public Boolean batchInsert(List<Object> datas) {
-        userVoMapper.batchInsert(datas);
-        return null;
+    public Boolean batchInsert(int clazzId, List<Object> datas) {
+
+        List<UserVo> userVos = BeanConvert.convertList2List(datas, UserVo.class);
+        //批量添加学生，同时 插入 50条
+        String password = passwordEncoder.encode(this.password);
+        for (UserVo user:userVos) {
+            user.setPassword(password);
+            user.setType(RoleEnum.STUDENT.getRes());
+            user.setCreateTime(ObjectUtils.CurrentTime());
+        }
+        log.error(userVos.toString());
+        //批量添加
+        userVoMapper.batchInsert(userVos);
+        //批量添加完Mybatis会set Id到userVos中
+        //取出userId
+        List<Integer> userId = userVos.stream().map(p -> p.getId()).collect(Collectors.toList());
+        UserRole userRole = new UserRole();
+        ClazzStudent clazzStudent = new ClazzStudent();
+        for (Integer id:userId) {
+            //添加到userRole表中
+            userRole.setUserId(id).setRoleId(RoleEnum.STUDENT.getRes());
+            userRoleMapper.insert(userRole);
+            //添加到clazz表中
+            clazzStudent.setStudentId(id).setClazzId(clazzId);
+            clazzStudentMapper.insert(clazzStudent);
+        }
+        return true;
     }
 
     /**

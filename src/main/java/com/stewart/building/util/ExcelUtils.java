@@ -9,6 +9,7 @@ import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.metadata.Sheet;
 import com.stewart.building.Listener.ExcelListener;
 import com.stewart.building.mbg.mapper.UserMapper;
+import com.stewart.building.mbg.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.*;
@@ -25,15 +26,16 @@ public class ExcelUtils {
     /**
      * @param is    导入文件输入流
      * @param clazz Excel实体映射类
+     * @param userService
      * @return
      */
-    public static Boolean readExcel(InputStream is, Class clazz) {
+    public static Boolean readExcel(InputStream is, Class clazz, Integer clazzId, IUserService userService) {
 
         BufferedInputStream bis = null;
         try {
             bis = new BufferedInputStream(is);
             // 解析每行结果在listener中处理
-            AnalysisEventListener listener = new ExcelListener();
+            AnalysisEventListener listener = new ExcelListener(clazzId,userService);
             ExcelReader excelReader = EasyExcelFactory.getReader(bis, listener);
             excelReader.read(new Sheet(1, 1, clazz));
         } catch (Exception e) {

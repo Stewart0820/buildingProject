@@ -16,9 +16,9 @@ public class ExcelEntity extends BaseRowModel {
     @ExcelProperty(index = 1, value = "姓名")
     private String name;
     @ExcelProperty(index = 2, value = "电话")
-    private String sex;
+    private String mobile;
     @ExcelProperty(index = 3, value = "性别")
-    private String tel;
+    private String gender;
     @ExcelProperty(index = 4, value = "邮箱")
     private String email;
 

@@ -24,6 +24,9 @@ public enum ResultStatus {
     TEACHER_NOT_EXIST(500,"该用户不存在"),
     COURSE_NOT_EXIST(500,"该课程不存在"),
     SEMESTER_NOT_EXIST(500,"该学期不存在"),
+    CLAZZ_ID_NOT_EXIST(500,"传入的班级id不存在"),
+    FILE_IS_NULL(500,"传入的文件为空"),
+    UPLOAD_ERROR(500,"上传失败"),
 
     /**
      * 成功信息
@@ -38,6 +41,8 @@ public enum ResultStatus {
     LOGOUT_SUCCESS(200, "退出成功"),
     GAIN_SUCCESS(200,"获取成功"),
     EMAIL_SEND_SUCCESS(200,"邮箱发送成功"),
+    UPLOAD_SUCCESS(200,"上传文件成功"),
+
 
     /**
      * 失败
@@ -55,7 +60,7 @@ public enum ResultStatus {
     USERNAME_ERROR(500,"用户名错误或者密码错误"),
     EMAIL_FORMAT_ERROR(500,"邮箱格式错误"),
     EMAIL_SEND_ERROR(500,"邮箱发送失败"),
-    ID_IS_NOT_TEACHER_ID(500,"传入的id不是老师id")
+    ID_IS_NOT_TEACHER_ID(500,"传入的id不是老师id"),
     ;
 
     /**
