@@ -89,7 +89,7 @@ public interface IUserService extends IService<User> {
      * @param datas
      * @return
      */
-    Boolean batchInsert(int clazzId, List<Object> datas);
+    boolean batchInsert(int clazzId, List<Object> datas);
 
     /**
      * 根据用户id查询单条老师数据

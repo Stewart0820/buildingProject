@@ -68,6 +68,7 @@ public class ExcelController {
             //将临时文件转为输入流
             InputStream inputStream = new FileInputStream(tmpFile);
             Boolean flag = ExcelUtils.readExcel(inputStream, ExcelEntity.class, id, userService);
+            System.out.println(flag);
             if(!flag){
                 return R.error(ResultStatus.UPLOAD_ERROR);
             }

@@ -30,7 +30,6 @@ import java.util.List;
  *
  * @author Steart
  */
-@Data
 public class ExcelListener extends AnalysisEventListener {
 
 
@@ -98,8 +97,7 @@ public class ExcelListener extends AnalysisEventListener {
         LOGGER.info(datas+"");
         //一次性插入多条记录,需要使用mybatis的批量添加
         //mybatis-plus的批量添加底层是for循环
-        Boolean flag = userService.batchInsert(clazzId, datas);
-        this.flag =flag;
+        setFlag(userService.batchInsert(clazzId, datas));
     }
 
 
@@ -117,5 +115,13 @@ public class ExcelListener extends AnalysisEventListener {
             LOGGER.error("第{}行，第{}列解析异常", excelDataConvertException.getRowIndex(),
                     excelDataConvertException.getColumnIndex());
         }
+    }
+
+    public Boolean getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Boolean flag) {
+        this.flag = flag;
     }
 }

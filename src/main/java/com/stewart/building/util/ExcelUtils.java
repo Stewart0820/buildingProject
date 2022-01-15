@@ -33,18 +33,17 @@ public class ExcelUtils {
     public static Boolean readExcel(InputStream is, Class clazz, Integer clazzId, IUserService userService) {
 
         BufferedInputStream bis = null;
+        Boolean flag;
         try {
             bis = new BufferedInputStream(is);
             // 解析每行结果在listener中处理
             ExcelListener listener = new ExcelListener(clazzId,userService);
-            Boolean flag = listener.getFlag();
-            //这里有bug
-            //TODO
-            if(flag==null){
-                return false;
-            }
+
             ExcelReader excelReader = EasyExcelFactory.getReader(bis, listener);
             excelReader.read(new Sheet(1, 1, clazz));
+            //这里有bug
+            flag = listener.getFlag();
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -57,7 +56,7 @@ public class ExcelUtils {
                 }
             }
         }
-        return true;
+        return flag;
     }
 
     /**

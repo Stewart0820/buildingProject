@@ -242,7 +242,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      */
     @Transactional
     @Override
-    public Boolean batchInsert(int clazzId, List<Object> datas) {
+    public boolean batchInsert(int clazzId, List<Object> datas) {
         if(datas.size()==0){
             return false;
         }
