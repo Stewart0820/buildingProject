@@ -9,14 +9,12 @@ package com.stewart.building.Listener;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.excel.exception.ExcelDataConvertException;
-import com.stewart.building.common.R;
-import com.stewart.building.mbg.mapper.UserVoMapper;
-import com.stewart.building.mbg.pojo.UserVo;
 import com.stewart.building.mbg.service.IUserService;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -32,7 +30,7 @@ import java.util.List;
  *
  * @author Steart
  */
-@Component
+@Data
 public class ExcelListener extends AnalysisEventListener {
 
 
@@ -51,15 +49,15 @@ public class ExcelListener extends AnalysisEventListener {
 
     private int clazzId;
     private List<Object> datas = new ArrayList<>();
-
-
+    private Boolean flag;
     public ExcelListener( ) {
     }
 
-    public ExcelListener(Integer clazzId,IUserService userService) {
+    public ExcelListener(Integer clazzId, IUserService userService) {
         this.clazzId = clazzId;
         this.userService = userService;
     }
+
 
     /**
      * 这个每一条数据解析都会来调用
@@ -100,7 +98,8 @@ public class ExcelListener extends AnalysisEventListener {
         LOGGER.info(datas+"");
         //一次性插入多条记录,需要使用mybatis的批量添加
         //mybatis-plus的批量添加底层是for循环
-        userService.batchInsert(clazzId, datas);
+        Boolean flag = userService.batchInsert(clazzId, datas);
+        this.flag =flag;
     }
 
 

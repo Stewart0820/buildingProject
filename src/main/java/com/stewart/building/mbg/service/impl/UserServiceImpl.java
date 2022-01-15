@@ -243,7 +243,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Transactional
     @Override
     public Boolean batchInsert(int clazzId, List<Object> datas) {
-
+        if(datas.size()==0){
+            return false;
+        }
         List<UserVo> userVos = BeanConvert.convertList2List(datas, UserVo.class);
         //批量添加学生，同时 插入 50条
         String password = passwordEncoder.encode(this.password);

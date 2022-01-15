@@ -67,7 +67,10 @@ public class ExcelController {
             file.transferTo(tmpFile);
             //将临时文件转为输入流
             InputStream inputStream = new FileInputStream(tmpFile);
-            ExcelUtils.readExcel(inputStream, ExcelEntity.class,id,userService);
+            Boolean flag = ExcelUtils.readExcel(inputStream, ExcelEntity.class, id, userService);
+            if(!flag){
+                return R.error(ResultStatus.UPLOAD_ERROR);
+            }
             //上传完成 删除临时文件
             tmpFile.delete();
             return R.ok(ResultStatus.UPLOAD_SUCCESS);

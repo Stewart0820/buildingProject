@@ -8,6 +8,7 @@ import com.alibaba.excel.metadata.BaseRowModel;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.metadata.Sheet;
 import com.stewart.building.Listener.ExcelListener;
+import com.stewart.building.common.R;
 import com.stewart.building.mbg.mapper.UserMapper;
 import com.stewart.building.mbg.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,13 @@ public class ExcelUtils {
         try {
             bis = new BufferedInputStream(is);
             // 解析每行结果在listener中处理
-            AnalysisEventListener listener = new ExcelListener(clazzId,userService);
+            ExcelListener listener = new ExcelListener(clazzId,userService);
+            Boolean flag = listener.getFlag();
+            //这里有bug
+            //TODO
+            if(flag==null){
+                return false;
+            }
             ExcelReader excelReader = EasyExcelFactory.getReader(bis, listener);
             excelReader.read(new Sheet(1, 1, clazz));
         } catch (Exception e) {
