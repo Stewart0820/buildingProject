@@ -64,6 +64,10 @@ public class User implements Serializable , UserDetails {
     @TableField(exist = false)
     private List<Role> roles;
 
+    @ApiModelProperty(value = "权限列表")
+    @TableField(exist = false)
+    private List<Menus> menus;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         //将存在这个Admin对象中的roles取出name放在security中
