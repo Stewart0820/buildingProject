@@ -52,6 +52,7 @@ public enum ResultStatus {
     UPDATE_ERROR(500,"修改失败"),
     DELETE_ERROR(500,"删除失败"),
     SELECT_ERROR(500,"查询失败"),
+    LOGIN_ERROR(500,"登录失败"),
 
     TYPE_ERROR(500,"类型转换错误"),
     ASSOCIATED_DATA_ERROR(500,"该数据有关联数据，操作失败！"),

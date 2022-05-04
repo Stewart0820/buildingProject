@@ -8,16 +8,16 @@ import com.stewart.building.mbg.service.IMenuService;
 import com.stewart.building.mbg.service.IRoleMenuService;
 import com.stewart.building.mbg.service.IUserService;
 import com.stewart.building.param.user.UserLoginParam;
+import com.sun.xml.bind.v2.TODO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import javafx.scene.control.MenuItem;
-import lombok.extern.log4j.Log4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +29,8 @@ import java.util.stream.Collectors;
 @RestController
 @CrossOrigin
 public class LoginController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+
 
     @Autowired
     private IUserService userService;
@@ -50,30 +52,16 @@ public class LoginController {
     public R getUserInfo(@PathVariable Integer id) {
         User user = userService.getInfo(id);
         user.setPassword(null);
-
+        LOGGER.error("这里没有进来？？");
         //设置角色
         user.setRoles(userService.getRoles(user.getId()));
 
         //根据角色查询所有的左侧菜单栏
         Integer roleId = user.getRoles().get(0).getId();
+        List<Menus> menus = userService.getMenuByRoleId(roleId);
+        user.setMenus(menus);
 
-        List<RoleMenu> menuList = roleMenuService.list(new QueryWrapper<RoleMenu>().eq("role_id", roleId));
-        List<Menus> collect = menuList.stream().map(item -> {
-            Menu menu1 = menuService.getOne(new QueryWrapper<Menu>().eq("id", item.getMenuId()));
-            Menus menus1 = getAllMenus(menu1);
-            Integer menuFatherId = menu1.getId();
-            List<Menu> menuSonId = menuService.list(new QueryWrapper<Menu>().eq("pid", menuFatherId));
-            //获取子类的menu
-            List<Menus> menusList = menuSonId.stream().map(i -> {
-                Menu menu2 = menuService.getOne(new QueryWrapper<Menu>().eq("id", i.getId()));
-                return getAllMenus(menu2);
-            }).collect(Collectors.toList());
-
-            menus1.setChildren(menusList);
-            return menus1;
-        }).collect(Collectors.toList());
-
-        user.setMenus(collect);
+        LOGGER.error(String.valueOf(user));
         return R.ok(ResultStatus.GAIN_SUCCESS, user);
 
     }
@@ -87,7 +75,7 @@ public class LoginController {
         Menus menus = new Menus();
         Meta meta = new Meta();
         BeanUtils.copyProperties(menu, menus);
-        BeanUtils.copyProperties(menu, meta);
+//        BeanUtils.copyProperties(menu, meta);
         menus.setMeta(meta);
         return menus;
     }

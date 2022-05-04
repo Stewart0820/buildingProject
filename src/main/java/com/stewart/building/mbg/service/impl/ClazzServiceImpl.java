@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
  * @since 2022-01-06
  */
 @Service
-public class ClazzServiceImpl extends ServiceImpl<ClazzMapper, Clazz> implements IClazzService {
+public class                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ClazzServiceImpl extends ServiceImpl<ClazzMapper, Clazz> implements IClazzService {
 
     @Autowired
     private ClazzMapper clazzMapper;

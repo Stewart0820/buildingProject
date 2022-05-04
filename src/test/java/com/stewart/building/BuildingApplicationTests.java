@@ -9,6 +9,8 @@ import sun.net.www.content.text.Generic;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -24,7 +26,13 @@ public class BuildingApplicationTests {
         Console.log(list);
     }
 
-    public static void main(String[] args) {
+    @Test
+    public void text(){
+        List<String> strings = Arrays.asList("1", "2", "3");
+        strings.forEach(s->{
+            System.out.println(s);
+        });
     }
+
 
 }

@@ -63,10 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/doc.html",
                 "/webjars/**",
                 "/swagger-resources/**",
-                "/v2/api-docs/**",
-                "/lab/**",
-                "/experiment/**",
-                "/**"
+                "/v2/api-docs/**"
+//                "/lab/**",
+//                "/experiment/**"
         );
     }
 
@@ -107,31 +106,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     @Override
-    public UserDetailsService userDetailsService(){
-        return account->{
+    public UserDetailsService userDetailsService() {
+        return account -> {
             //根据 账号获取用户信息
             User user = userService.getUserByUsername(account);
-            if(user!=null){
+            if (user != null) {
                 // 根据用户的id获取用户角色
                 List<Role> roles = userService.getRoles(user.getId());
                 user.setRoles(roles);
                 return user;
             }
-            throw  new UsernameNotFoundException("用户名或密码错误");
+            throw new UsernameNotFoundException("用户名或密码错误");
         };
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     /**
      * SpringSecurity定义的用于对密码进行编码及比对的接口，目前使用的是BCryptPasswordEncoder；
+     *
      * @return
      */
     @Bean
-    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter(){
+    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
         return new JwtAuthenticationTokenFilter();
     }
 

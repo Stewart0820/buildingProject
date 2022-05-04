@@ -26,7 +26,23 @@
         </collection>
 
     </resultMap>
+    <resultMap id="MenusByRoleId" type="com.stewart.building.mbg.pojo.Menus" extends="BaseResultMap">
 
+        <collection property="meta" ofType="com.stewart.building.mbg.pojo.Meta">
+            <result column="title1" property="title" />
+            <result column="icon1" property="icon" />
+        </collection>
+        <collection property="children" ofType="com.stewart.building.mbg.pojo.Menus">
+            <result column="name2" property="name" />
+            <result column="path2" property="path" />
+            <result column="component2" property="component" />
+            <collection property="meta" ofType="com.stewart.building.mbg.pojo.Meta">
+                <result column="title2" property="title" />
+                <result column="icon2" property="icon" />
+            </collection>
+        </collection>
+
+    </resultMap>
     <resultMap id="MenuWithRole" type="com.stewart.building.mbg.pojo.Menu" extends="BaseResultMap">
         <collection property="roles" ofType="com.stewart.building.mbg.pojo.Role">
             <id column="rid" property="id" />
@@ -62,7 +78,7 @@
         AND
             rm.role_id =ur.role_id
         AND
-            ur.user_id = 1
+            ur.user_id = #{userId}
     </select>
 
     <select id="getMenuWithRole" resultMap="MenuWithRole">
@@ -84,6 +100,7 @@
     </select>
 
 
+
     <select id="getAllMenu" resultMap="Menus">
         SELECT
         DISTINCT
@@ -100,6 +117,31 @@
             menu AS m2
         WHERE
             m1.id = m2.pid
+    </select>
+    <select id="getMenuWithRoleId" resultMap="MenusByRoleId">
+         SELECT
+            DISTINCT
+            m1.`name` AS `name`,
+            m1.path AS path,
+            m1.component AS component,
+            m1.title AS title1,
+            m1.icon AS icon1,
+            m2.`name` AS name2,
+            m2.path AS path2,
+            m2.component AS component2,
+            m2.title AS title2,
+            m2.icon AS icon2
+        FROM
+            menu AS m1,
+            menu AS m2,
+            role_menu AS rm
+        WHERE
+            m1.id=m2.pid
+        AND
+            m2.id = rm.menu_id
+        AND
+            rm.role_id =#{roleId}
+
     </select>
 
 </mapper>

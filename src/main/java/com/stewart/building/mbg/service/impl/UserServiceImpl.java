@@ -85,10 +85,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Autowired
     private UserVoMapper userVoMapper;
 
+    @Autowired
+    private RoleMenuMapper roleMenuMapper;
+
     private final String password = "123456";
 
     @Autowired
     private ClazzStudentMapper clazzStudentMapper;
+    @Autowired
+    private MenuMapper menuMapper;
 
 
     @Autowired
@@ -104,10 +109,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     @Transactional
     public R login(String account, String password, HttpServletRequest request) {
+        logger.warn("request"+account);
+        logger.warn("password"+password);
+        if("".equals(account)){
+            return R.error(ResultStatus.LOGIN_ERROR);
+        }
+
         //登录
         UserDetails userDetails = userDetailsService.loadUserByUsername(account);
 
-        //判断账号密码是否正确
+        //判断账号密码是否正确  加盐加密
         if (userDetails == null || passwordEncoder.matches(password, userDetails.getPassword())) {
             return R.error(ResultStatus.USERNAME_ERROR);
         }
@@ -291,6 +302,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         return R.ok(ResultStatus.SELECT_SUCCESS,userVo);
     }
 
+
+
+
     /**
      * 在userRole表中添加数据
      * @param userType
@@ -358,4 +372,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             userRoleMapper.insert(getUserRole(userId, RoleDetailEnum.TEACHER_LAB.ordinal()));
         }
     }
+    @Override
+    public List<Menus> getMenuByRoleId(Integer roleId) {
+        return menuMapper.getMenuWithRoleId(roleId);
+    }
+//    @Override
+//    public List<Menus> getMenuByRoleId(Integer roleId) {
+//        List<RoleMenu> roleMenus = roleMenuMapper.selectList(new QueryWrapper<RoleMenu>().eq("role_id", roleId));
+//        roleMenus.stream().map(i->{
+//            Integer menuId = i.getMenuId();
+//            Menu menu = menuMapper.selectById(menuId);
+//            Menus menus = new Menus();
+//
+//            menus.setName(menu.getName());
+//            menus.setComponent(menu.getComponent());
+//            menus.setPath(menu.getPath());
+//
+//            Meta meta = new Meta();
+//            meta.setIcon(menu.getIcon());
+//            meta.setTitle(menu.getTitle());
+//            menus.setMeta(meta);
+//            menus.setChildren();
+//        })
+//    }
 }

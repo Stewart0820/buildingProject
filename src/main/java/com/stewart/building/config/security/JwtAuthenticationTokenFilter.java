@@ -24,6 +24,7 @@ import java.io.IOException;
  * @author macro
  * @date 2018/4/26
  */
+
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthenticationTokenFilter.class);
     @Autowired
@@ -40,13 +41,18 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
+
         String authHeader = request.getHeader(this.tokenHeader);
+        LOGGER.warn("这里");
+        LOGGER.warn(authHeader);
         if (authHeader != null && authHeader.startsWith(this.tokenHead)) {
             // The part after "Bearer "
             String authToken = authHeader.substring(this.tokenHead.length());
-
+            LOGGER.warn(authToken);
             String account = jwtTokenUtil.getUserNameFromToken(authToken);
             LOGGER.info("checking username:{}", account);
+            LOGGER.info(account);
+
             if (account != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 //登录
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(account);
