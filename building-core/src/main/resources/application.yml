@@ -1,0 +1,53 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://121.196.226.35:3306/building?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+  redis:
+    #数据库索引
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:
+    jedis:
+      pool:
+        #最大连接数
+        max-active: 8
+        #最大阻塞等待时间(负数表示没限制)
+        max-wait: -1
+        #最大空闲
+        max-idle: 8
+        #最小空闲
+        min-idle: 0
+        #连接超时时间
+    timeout: 10000
+  mail:
+    host: smtp.qq.com
+    protocol: smtp
+    default-encoding: UTF-8
+    password: qgrxmkxpwiidfdgd
+    username: 1939136076@qq.com
+    port: 25
+  rabbitmq:
+    addresses: 121.196.226.35
+    port: 15672
+    username: admin
+    password: admin
+jwt:
+  tokenHeader: Authorization
+  secret: building-secret
+  # jwt的超时时间
+  expiration: 604800
+  tokenHead: Bearer
+
+user:
+  password: 123456
+
+server:
+  port: 8888
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
