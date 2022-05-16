@@ -12,6 +12,7 @@
 - 课程模块
 - 班级模块
 - 学期模块
+- excel模块
 
 
 
@@ -28,7 +29,7 @@
 | Swagger-UI                     | 文档生成工具        |
 | spring-boot-starter-validation | 验证框架            |
 | redis                          | nosql数据库        |
-
+| easyexcel                      | excel导入          |
 
 
 
