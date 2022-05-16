@@ -27,7 +27,7 @@
 | PageHelper                     | MyBatis物理分页插件 |
 | Swagger-UI                     | 文档生成工具        |
 | spring-boot-starter-validation | 验证框架            |
-
+| redis                          | nosql数据库        |
 
 
 
