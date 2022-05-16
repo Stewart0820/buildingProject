@@ -1,6 +1,5 @@
 package com.stewart.building.mbg.controller.user.user;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.stewart.building.common.R;
 import com.stewart.building.common.ResultStatus;
 import com.stewart.building.mbg.pojo.*;
@@ -8,7 +7,7 @@ import com.stewart.building.mbg.service.IMenuService;
 import com.stewart.building.mbg.service.IRoleMenuService;
 import com.stewart.building.mbg.service.IUserService;
 import com.stewart.building.param.user.UserLoginParam;
-import com.sun.xml.bind.v2.TODO;
+import com.stewart.building.vo.Menus;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Stewart

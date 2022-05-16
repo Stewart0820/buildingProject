@@ -31,6 +31,7 @@ import javax.validation.Valid;
 @Api(tags = "实验室模块")
 @RestController
 @RequestMapping("/lab")
+@CrossOrigin
 public class LabController {
 
     @Autowired

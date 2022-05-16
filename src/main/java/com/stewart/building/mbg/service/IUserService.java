@@ -3,7 +3,7 @@ package com.stewart.building.mbg.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.stewart.building.common.R;
-import com.stewart.building.mbg.pojo.Menus;
+import com.stewart.building.vo.Menus;
 import com.stewart.building.mbg.pojo.Role;
 import com.stewart.building.mbg.pojo.User;
 import com.stewart.building.mbg.pojo.UserVo;

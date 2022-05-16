@@ -26,13 +26,13 @@
         </collection>
 
     </resultMap>
-    <resultMap id="MenusByRoleId" type="com.stewart.building.mbg.pojo.Menus" extends="BaseResultMap">
+    <resultMap id="MenusByRoleId" type="com.stewart.building.vo.Menus" extends="BaseResultMap">
 
         <collection property="meta" ofType="com.stewart.building.mbg.pojo.Meta">
             <result column="title1" property="title" />
             <result column="icon1" property="icon" />
         </collection>
-        <collection property="children" ofType="com.stewart.building.mbg.pojo.Menus">
+        <collection property="children" ofType="com.stewart.building.vo.Menus">
             <result column="name2" property="name" />
             <result column="path2" property="path" />
             <result column="component2" property="component" />

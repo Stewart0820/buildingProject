@@ -12,7 +12,6 @@ import com.stewart.building.common.renum.RoleEnum;
 import com.stewart.building.config.component.JwtTokenUtil;
 import com.stewart.building.mbg.mapper.*;
 import com.stewart.building.mbg.pojo.*;
-import com.stewart.building.mbg.service.IClazzService;
 import com.stewart.building.mbg.service.IUserService;
 import com.stewart.building.param.user.teacher.AddTeacherParam;
 import com.stewart.building.param.user.teacher.GetAllTeacherByPageParam;
@@ -21,6 +20,7 @@ import com.stewart.building.util.BeanConvert;
 import com.stewart.building.util.IpUtil;
 import com.stewart.building.util.ObjectUtils;
 import com.stewart.building.util.UserUtil;
+import com.stewart.building.vo.Menus;
 import com.stewart.building.vo.user.GetAllTeacherVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +37,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,10 +106,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @return
      */
     @Override
-    @Transactional
     public R login(String account, String password, HttpServletRequest request) {
-        logger.warn("request"+account);
-        logger.warn("password"+password);
         if("".equals(account)){
             return R.error(ResultStatus.LOGIN_ERROR);
         }

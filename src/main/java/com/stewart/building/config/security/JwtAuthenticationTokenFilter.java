@@ -43,6 +43,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                                     FilterChain chain) throws ServletException, IOException {
 
         String authHeader = request.getHeader(this.tokenHeader);
+        LOGGER.error(this.tokenHeader);
         LOGGER.warn("这里");
         LOGGER.warn(authHeader);
         if (authHeader != null && authHeader.startsWith(this.tokenHead)) {

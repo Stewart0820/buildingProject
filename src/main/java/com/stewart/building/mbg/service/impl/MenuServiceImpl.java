@@ -22,14 +22,7 @@ import java.util.List;
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IMenuService {
     @Autowired
     private MenuMapper menuMapper;
-    /**
-     * getMenuWithRole
-     * @return
-     */
-    @Override
-    public List<Menu> getMenuWithRole(){
-        return menuMapper.getMenuWithRole();
-    }
+
 
 
 

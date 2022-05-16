@@ -2,7 +2,7 @@ package com.stewart.building.mbg.mapper;
 
 import com.stewart.building.mbg.pojo.Menu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.stewart.building.mbg.pojo.Menus;
+import com.stewart.building.vo.Menus;
 
 import java.util.List;
 
@@ -15,11 +15,7 @@ import java.util.List;
  * @since 2022-01-06
  */
 public interface MenuMapper extends BaseMapper<Menu> {
-    /**
-     * 根据角色获取菜单列表
-     * @return
-     */
-    List<Menu> getMenuWithRole();
+
     /**
      * 根据角色id获取菜单列表
      * @return

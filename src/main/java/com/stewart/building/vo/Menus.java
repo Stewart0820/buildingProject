@@ -1,5 +1,6 @@
-package com.stewart.building.mbg.pojo;
+package com.stewart.building.vo;
 
+import com.stewart.building.mbg.pojo.Meta;
 import lombok.Data;
 
 import java.util.List;
